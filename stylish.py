@@ -2,12 +2,12 @@ import os
 import time
 
 from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean
-
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 import config
 from database import Model
+
 
 class Style(Model):
     __tablename__ = 'styles'
@@ -25,17 +25,23 @@ class Style(Model):
 
 class EventHandler(FileSystemEventHandler):
     def on_modified(self, event):
+        if event.src_path not in files:
+            return
         print event.src_path
-
+        style = Style.query.filter(Style.id==files[event.src_path]).first()
+        with open(event.src_path, 'r') as f:
+            style.code = f.read()
+            style.save()
 
 styles = Style.query.all()
 files = {}
 
 for style in styles:
-    files[str(style.id)] = open('%s/%s.css' %
-        (config.OUTPUT_DIR, style.name), 'w')
-    files[str(style.id)].write(style.code)
-    files[str(style.id)].close()
+    path = '%s/%s.css' % (config.OUTPUT_DIR, style.name)
+    files[path] = style.id
+    f = open(path, 'w')
+    f.write(style.code)
+    f.close()
 
 if __name__ == '__main__':
     event_handler = EventHandler()
