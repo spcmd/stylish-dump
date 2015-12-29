@@ -2,17 +2,39 @@
 
 *stylish-dump* was created by [spectralsun](https://github.com/spectralsun/stylish-dump), this repo is a fork.
 
-###Dependencies:
+##Install for Arch Linux
+
+**Note:** The PKGBUILD will try to set up *stylish-dump*'s config file (`config.py`) for you (see details about `<user>` and `<profile>` below). 
+Check the `PGKBUILD` before running `makepkg` **AND/OR** check out the `config.py` in `/opt/stylish-dump` after installed the package with pacman.
+
+1. Download/save this with the name [PKGBUILD](https://raw.githubusercontent.com/spcmd/Scripts/master/PKGBUILDs/stylish-dump.PKGBUILD)
+2. Put it somewhere (to an empty directory) and change to that directory, then run: `makepkg`. If it complains about missing dependencies, then run `makepkg -s` and it will install these dependencies for it: 
+ * python2
+ * python2-argh
+ * python2-pathtools
+ * python2-yaml
+ * python2-sqlalchemy
+ * python2-watchdog
+
+Then you'll have the arch-package named: `stylish-dump-<version>-any.pkg.tar.xz`
+
+Now you can install it with pacman's `-U` option:
+
+`sudo pacman -U stylish-dump-<version>-any.pkg.tar.xz`
+
+
+##Install manually:
+
+**Note:** This install method (using /opt) is based on the PKGBUILD I've created for Arch Linux. You can set it up in another way (e.g.: put in under $HOME), but then you need to run the `python2 /path/to/stylish.py` directly **or** you need to edit the `stylish-dump` shell script to point to the proper directory (instead of /opt).
+
+##### Make sure you have these dependencies installed:
+
 * python2
 * argh==0.26.1
 * pathtools==0.1.2
 * PyYAML==3.11
 * SQLAlchemy==0.9.8
 * watchdog==0.8.3
-
-##Install:
-
-**Note:** This install method (using /opt) is based on the PKGBUILD I've created for Arch Linux. You can set it up in another way (e.g.: put in under $HOME), but then you need to run the `python2 /path/to/stylish.py` directly **or** you need to edit the `stylish-dump` shell script to point to the proper directory (instead of /opt).
 
 ##### 1. Clone this repo: 
 
