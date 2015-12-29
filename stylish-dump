@@ -14,6 +14,5 @@ case "$1" in
                     echo -e "\n Options:"
                     echo -e "\t -d, --dump\t Dump userstyles."
                     echo -e "\t -h, --help\t This help."
-                    echo -e "\n"
                     ;;
 esac
