@@ -1,0 +1,19 @@
+#!/bin/bash
+
+case "$1" in 
+    ""|-d|--dump)
+                    echo "==> Dumping userstyles to $(awk 'NR==2 {print $3}' /opt/stylish-dump/config.py)"
+                    echo "==> Watching userstyle changes. Press Ctrl+C to exit"
+                    python2 /opt/stylish-dump/stylish.py
+                    ;;
+    -h|--help|*)    echo "Usage: stylish-dump [option]"
+                    echo "The '-d' and the '--dump' are optional because the default action is to dump."
+                    echo "Dump directory: $(awk 'NR==2 {print $3}' /opt/stylish-dump/config.py)"
+                    echo "You can set the dump directory in: '/opt/stylish-dump/config.py'"
+                    echo "For further information, please visit: https://github.com/spcmd/stylish-dump/blob/master/README.md"
+                    echo -e "\n Options:"
+                    echo -e "\t -d, --dump\t Dump userstyles."
+                    echo -e "\t -h, --help\t This help."
+                    echo -e "\n"
+                    ;;
+esac

@@ -1,1 +1,73 @@
-# Stylish Stylesheet Dumper
+###Dumps stylesheets from stylish extension for easy editing and version control.
+
+*stylish-dump* was created by [spectralsun](https://github.com/spectralsun/stylish-dump), this repo is a fork.
+
+###Dependencies:
+* python2
+* argh==0.26.1
+* pathtools==0.1.2
+* PyYAML==3.11
+* SQLAlchemy==0.9.8
+* watchdog==0.8.3
+
+##Install:
+
+**Note:** This install method (using /opt) is based on the PKGBUILD I've created for Arch Linux. You can set it up in another way (e.g.: put in under $HOME), but then you need to run the `python2 /path/to/stylish.py` directly **or** you need to edit the `stylish-dump` shell script to point to the proper directory (instead of /opt).
+
+##### 1. Clone this repo: 
+
+`git clone https://github.com/spcmd/stylish-dump.git`
+
+##### 2. Edit `config.py` and change the `<user>` and `<profile>` strings to the proper ones (your username and the Firefox profile folder's name)
+
+`DATABASE_URL = 'sqlite:////home/<user>/.mozilla/firefox/<profile>/stylish.sqlite'`
+
+`OUTPUT_DIR = '/home/<user>/.stylish-dump'`
+
+You can change the output directory where the .css files will be dumped. By default it's `~/.stylish-dump`, see: `OUTPUT_DIR` above.
+
+
+##### 3. Put the needed files under /opt: 
+
+`sudo mkdir -p /opt/stylish-dump`
+
+`cp {config,database,stylish}.py /opt/stylish-dump`
+
+##### 4. Put `stylish-dump` script to somewhere in your $PATH
+
+but before make sure it's executable. If not, run:
+
+`chmod +x stylish-dump`
+
+Then copy somewhere (in your $PATH):
+
+`cp stylish-dump /path/to/dir`
+
+
+## Usage:
+
+Simply run the `stylish-dump` command. By default it will dump the .css files to `~/.stylish-dump` directory (but you can change this directory, see: the second step of the **Install** above). After this, you can easily version control them with git.
+
+stylish-dump runs in the foreground and keeps watching for modifications on the dumped .css files. You can exit it by pressing `^C` *(Ctrl+C)*.
+
+Now you can edit the dumped .css file directly with you favorite editor (e.g.: vim), and stylish-dump will write back the changes to the Stylish addon's SQL database. However, in your browser you need to disable and re-enable the modified userstyle to see the changes.
+
+The `stylish-dump -h` or `stylish-dump --help` command will give you some basic information.
+
+####Reloading userstyles with Vimperator
+
+If you are using [Vimperator](https://addons.mozilla.org/en-US/firefox/addon/vimperator), you can use the [stylish.js](https://github.com/spcmd/dotfiles/blob/master/vimperator/.vimperator/plugin/stylish.js) plugin to toggle a userstyle:
+
+`:stylish toggle`
+
+Or you can make a shorter custom command in your `~/.vimperatorrc`
+
+`command! ST -description="Toggle Stylish userstyle for this page" :stylish toggle`
+
+Or make a quick reload key combo (double toggle):
+
+`nmap st :stylish toggle<CR>:stylish toggle<CR>`
+
+Then source it in the browser (:source) or restart Firefox.
+
+Now you can hit `st` to quickly reload the userstyle.
