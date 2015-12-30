@@ -1,18 +1,67 @@
 #!/bin/bash
+#
+#                                      _
+#         ___ _ __   ___ _ __ ___   __| |
+#        / __| '_ \ / __| '_ ` _ \ / _` |
+#        \__ | |_) | (__| | | | | | (_| |
+#        |___| .__/ \___|_| |_| |_|\__,_|
+#             |_|
+#
+#                  stylish-dump
+#               Created by: spcmd
+#           http://spcmd.github.io
+#           https://github.com/spcmd
+#           https://gist.github.com/spcmd
+#
+#
+#   This is a "wrapper" script for stylish-dump
+#   which allows you to easily dump the userstyles
+#   or create backup copies of the stylish.sqlite
+#   database.
+#
+#   stylish-dump python script was originally
+#   created by spectralsun (https://github.com/spectralsun)
 
-case "$1" in 
+case "$1" in
     ""|-d|--dump)
                     echo "==> Dumping userstyles to $(awk 'NR==2 {print $3}' /opt/stylish-dump/config.py)"
                     echo "==> Watching userstyle changes. Press Ctrl+C to exit"
                     python2 /opt/stylish-dump/stylish.py
                     ;;
+
+    -b|--backup)
+                    if [[ ! -z $2 ]]; then
+                        echo "==> Creating backup of the Stylish SQLite"
+                        STYLISH_DB=$(awk 'NR==1 { gsub("sqlite:///",""); gsub("\047",""); print $3}' /opt/stylish-dump/config.py)
+                        STYLISH_DB_BACKUP="stylish.sqlite-$(date +"%Y-%m-%d_%H-%M-%S").bak"
+                        cp  $STYLISH_DB "$2"/$STYLISH_DB_BACKUP
+                        echo "==> Done."
+                        echo "==> Backup copied to: "$2"/$STYLISH_DB_BACKUP"
+                    else
+                        echo "==> Error: You didn't set the destination directory."
+                        echo "==> Where do you want to copy the backup of the Stylish SQLite database?"
+                        echo -e "\tUsage: stylish-dump -b /path/to/dest_dir"
+                    fi
+                    ;;
+
+    -B|--quick-backup)
+                    echo "==> Creating quick-backup of the Stylish SQLite"
+                    STYLISH_DB=$(awk 'NR==1 { gsub("sqlite:///",""); gsub("\047",""); print $3}' /opt/stylish-dump/config.py)
+                    STYLISH_DB_BACKUP="$STYLISH_DB-$(date +"%Y-%m-%d_%H-%M-%S").bak"
+                    cp  $STYLISH_DB $STYLISH_DB_BACKUP
+                    echo "==> Done."
+                    echo "==> Quick-Backup created: $STYLISH_DB_BACKUP"
+                    ;;
+
     -h|--help|*)    echo "Usage: stylish-dump [option]"
                     echo "The '-d' and the '--dump' are optional because the default action is to dump."
                     echo "Dump directory: $(awk 'NR==2 {print $3}' /opt/stylish-dump/config.py)"
                     echo "You can set the dump directory in: '/opt/stylish-dump/config.py'"
                     echo "For further information, please visit: https://github.com/spcmd/stylish-dump/blob/master/README.md"
-                    echo -e "\n Options:"
-                    echo -e "\t -d, --dump\t Dump userstyles."
-                    echo -e "\t -h, --help\t This help."
+                    echo -e "\nOptions:"
+                    echo -e "\t -d, --dump                  Dump userstyles."
+                    echo -e "\t -b, --backup <dest_dir>     Create a backup of the Stylish SQLite database to <dest_dir>."
+                    echo -e "\t -B, --quick-backup          Create a quick backup of the Stylish SQLite database in the same directory."
+                    echo -e "\t -h, --help                  This help."
                     ;;
 esac

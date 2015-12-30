@@ -93,3 +93,13 @@ Or make a quick reload key combo (double toggle):
 Then source it in the browser (:source) or restart Firefox.
 
 Now you can hit `st` to quickly reload the userstyle.
+
+####Create backup of the stylish.sqlite database
+
+stylish-dump allows you to quickly create backup of the stylish.sqlite database with the following options:
+
+`-b, --backup <dest_dir>` Create a backup of the Stylish SQLite database to <dest_dir>.
+
+`-B, --quick-backup` Create a quick backup of the Stylish SQLite database in the same directory (by default it's the Firefox profile directory).
+
+The backup copies will have date&time stamps in their filenames so they won't get overwritten, you can make as many backups as you wish.
