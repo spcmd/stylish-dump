@@ -4,11 +4,10 @@
 
 ##Install for Arch Linux
 
-**Note:** The PKGBUILD will try to set up *stylish-dump*'s config file (`config.py`) for you (see details about `<user>` and `<profile>` below). 
+**Note:** The PKGBUILD will try to set up *stylish-dump*'s config file (`config.py`) for you (see details about `<user>` and `<profile>` below).
 Check the `PGKBUILD` before running `makepkg` **AND/OR** check out the `config.py` in `/opt/stylish-dump` after installed the package with pacman.
 
-1. Download/save this with the name [PKGBUILD](https://raw.githubusercontent.com/spcmd/Scripts/master/PKGBUILDs/stylish-dump.PKGBUILD)
-2. Put it somewhere (to an empty directory) and change to that directory, then run: `makepkg`. If it complains about missing dependencies, then run `makepkg -s` and it will install these dependencies for it: 
+1. Run `makepkg`. If it complains about missing dependencies, then run `makepkg -s` and it will install these dependencies for it:
  * python2
  * python2-argh
  * python2-pathtools
@@ -36,7 +35,7 @@ Now you can install it with pacman's `-U` option:
 * SQLAlchemy==0.9.8
 * watchdog==0.8.3
 
-##### 1. Clone this repo: 
+##### 1. Clone this repo:
 
 `git clone https://github.com/spcmd/stylish-dump.git`
 
@@ -49,7 +48,7 @@ Now you can install it with pacman's `-U` option:
 You can change the output directory where the .css files will be dumped. By default it's `~/.stylish-dump`, see: `OUTPUT_DIR` above.
 
 
-##### 3. Put the needed files under /opt: 
+##### 3. Put the needed files under /opt:
 
 `sudo mkdir -p /opt/stylish-dump`
 
